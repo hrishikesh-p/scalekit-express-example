@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import express, { Router } from "express";
 import path from "path";
 import serverless from "serverless-http";
+import { jwtDecode } from "jwt-decode";
 
 const port = process.env.PORT || 8080;
 const app = express();
@@ -58,22 +59,21 @@ router.get("/callback", async (req, res) => {
     return res.status(400).json({ message: error_description });
   }
 
-  const { user } = await scalekit.authenticateWithCode({
+  const { user , idToken } = await scalekit.authenticateWithCode({
     code: code as string,
     redirectUri: process.env.AUTH_REDIRECT_URI!,
   });
-  //users.set(user.id, user);
 
-  users.set(user.id, {
-    "given_name" : user.givenName,
-    "family_name" : user.familyName,
-    "email" : user.id,
-    "id" : user.id
-  });
+  const decoded = jwtDecode(idToken);
+
+  const userInfo = {
+    "user" : user, 
+    "idToken" : decoded
+  }
 
   res.cookie("uid", user.id, { httpOnly: true });
 
-  return res.redirect("/profile");
+  return res.json(userInfo);
 })
 
 router.post("/logout", async (_, res) => {
@@ -87,5 +87,7 @@ app.use("/auth/", router);
 app.use((_, res) => {
   return res.sendFile(path.join(__dirname, 'web/build', 'index.html'));
 })
+
+app.set('json spaces', 40);
 
 export const handler = serverless(app);
