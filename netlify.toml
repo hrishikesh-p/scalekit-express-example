@@ -1,10 +1,10 @@
 [functions]
-  base="/"
+  base = "/"
   external_node_modules = ["express"]
   node_bundler = "esbuild"
 [build]
   functions = "netlify/functions/"
-  command = "echo 'default context'"
+  command = "echo building app"
 [[redirects]]
   force = true
   from = "/auth/*"
