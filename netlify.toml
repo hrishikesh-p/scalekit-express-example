@@ -1,0 +1,12 @@
+[functions]
+  external_node_modules = ["express"]
+  node_bundler = "esbuild"
+[build]
+  publish = "web/build"
+  # Default build command.
+  command = "echo 'default context'"
+[[redirects]]
+  force = true
+  from = "/app/*"
+  status = 200
+  to = "/.netlify/functions/app/:splat"
