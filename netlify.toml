@@ -9,7 +9,3 @@
   from = "/auth/*"
   status = 200
   to = "/.netlify/functions/index/:splat"
-[[redirects]]
-  from = "/*"
-  status = 200
-  to = "/index.html"
