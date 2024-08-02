@@ -82,7 +82,7 @@ router.post("/logout", async (_, res) => {
 })
 
 app.use("/auth/", router);
-app.use(express.static('web/build'))
+app.use(express.static('../web/build'))
 
 // To handle the React 404 routing, return the index.html file
 app.use((_, res) => {
