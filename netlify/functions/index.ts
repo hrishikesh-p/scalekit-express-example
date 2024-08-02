@@ -86,7 +86,7 @@ app.use(express.static('../web/build'))
 
 // To handle the React 404 routing, return the index.html file
 app.use((_, res) => {
-  return res.sendFile(path.join(__dirname, 'web/build', 'index.html'));
+  return res.sendFile(path.join(__dirname, '../web/build', 'index.html'));
 })
 
 app.set('json spaces', 40);
