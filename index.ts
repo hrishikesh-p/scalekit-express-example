@@ -58,7 +58,15 @@ app.get("/auth/callback", async (req, res) => {
     code: code as string,
     redirectUri: process.env.AUTH_REDIRECT_URI!,
   });
-  users.set(user.id, user);
+  //users.set(user.id, user);
+
+  users.set(user.id, {
+    "given_name" : user.givenName,
+    "family_name" : user.familyName,
+    "email" : user.id,
+    "id" : user.id
+  });
+
   res.cookie("uid", user.id, { httpOnly: true });
 
   return res.redirect("/profile");
