@@ -7,6 +7,6 @@
   command = "echo 'default context'"
 [[redirects]]
   force = true
-  from = "/app/*"
+  from = "/auth/*"
   status = 200
-  to = "/.netlify/functions/app/:splat"
+  to = "/.netlify/functions/auth/:splat"

@@ -1,7 +1,7 @@
 import { Scalekit, User } from '@scalekit-sdk/node';
 import bodyParser from 'body-parser';
 import cookieParser from "cookie-parser";
-import express from "express";
+import express, { Router } from "express";
 import path from "path";
 import serverless from "serverless-http";
 
@@ -21,7 +21,10 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'web/build')));
 
-app.get("/auth/me", async (req, res) => {
+const router = Router();
+
+
+router.get("/me", async (req, res) => {
   const uid = req.cookies.uid;
   if (!uid) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -34,7 +37,7 @@ app.get("/auth/me", async (req, res) => {
   return res.json(user);
 })
 
-app.post("/auth/login", async (req, res) => {
+router.post("/login", async (req, res) => {
   const { connectionId, email, organizationId } = req.body;
   const url = scalekit.getAuthorizationUrl(
     process.env.AUTH_REDIRECT_URI!,
@@ -49,7 +52,7 @@ app.post("/auth/login", async (req, res) => {
   });
 })
 
-app.get("/auth/callback", async (req, res) => {
+router.get("/callback", async (req, res) => {
   const { code, error_description } = req.query;
   if (error_description) {
     return res.status(400).json({ message: error_description });
@@ -73,10 +76,12 @@ app.get("/auth/callback", async (req, res) => {
   return res.redirect("/profile");
 })
 
-app.post("/auth/logout", async (_, res) => {
+router.post("/logout", async (_, res) => {
   res.clearCookie("uid");
   return res.redirect("/");
 })
+
+app.use("/auth/", router);
 
 // To handle the React 404 routing, return the index.html file
 app.use((_, res) => {
