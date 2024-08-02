@@ -68,7 +68,7 @@ router.get("/callback", async (req, res) => {
 
   const userInfo = {
     "user" : user, 
-    "idToken" : decodedG
+    "idToken" : decoded
   }
 
   res.cookie("uid", user.id, { httpOnly: true });
