@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cookieParser from "cookie-parser";
 import express from "express";
 import path from "path";
+import serverless from "serverless-http";
 
 const port = process.env.PORT || 8080;
 const app = express();
@@ -82,6 +83,4 @@ app.use((_, res) => {
   return res.sendFile(path.join(__dirname, 'web/build', 'index.html'));
 })
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-})
+export const handler = serverless(app);

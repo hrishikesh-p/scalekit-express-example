@@ -21,11 +21,13 @@
   },
   "homepage": "https://github.com/scalekit-inc/scalekit-express-example#readme",
   "dependencies": {
+    "@netlify/functions": "^2.8.1",
     "@scalekit-sdk/node": "^1.0.3",
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.5",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "serverless-http": "^3.2.0"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.7",
